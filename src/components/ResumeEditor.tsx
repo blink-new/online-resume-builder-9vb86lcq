@@ -13,12 +13,35 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/t
 import html2pdf from "html2pdf.js";
 
 export function ResumeEditor() {
-  const [name, setName] = useState("");
-  const [title, setTitle] = useState("");
-  const [summary, setSummary] = useState("");
-  const [education, setEducation] = useState([{ school: "", degree: "", year: "" }]);
-  const [experience, setExperience] = useState([{ company: "", role: "", period: "" }]);
-  const [skills, setSkills] = useState([""]);
+  // Prefilled example values for demo
+  const [name, setName] = useState("Ada Lovelace");
+  const [title, setTitle] = useState("Software Engineer");
+  const [summary, setSummary] = useState(
+    "Pioneering computer scientist with a passion for algorithms, mathematics, and elegant code. Experienced in analytical engines, collaborative projects, and technical writing."
+  );
+  const [education, setEducation] = useState([
+    { school: "University of London", degree: "BSc Mathematics", year: "1835" },
+    { school: "Self-Study", degree: "Computer Science", year: "1837" }
+  ]);
+  const [experience, setExperience] = useState([
+    {
+      company: "Analytical Engine Project",
+      role: "Lead Programmer",
+      period: "1837–1843"
+    },
+    {
+      company: "Royal Society",
+      role: "Mathematics Contributor",
+      period: "1835–1842"
+    }
+  ]);
+  const [skills, setSkills] = useState([
+    "Algorithm Design",
+    "Mathematics",
+    "Technical Writing",
+    "Collaboration",
+    "Analytical Thinking"
+  ]);
   const [downloading, setDownloading] = useState(false);
 
   const previewRef = useRef<HTMLDivElement>(null);
