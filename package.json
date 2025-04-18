@@ -61,7 +61,8 @@
     "sonner": "^2.0.3",
     "vaul": "^1.1.2",
     "zod": "^3.24.2",
-    "react-to-print": "latest"
+    "react-to-print": "latest",
+    "html2pdf.js": "latest"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

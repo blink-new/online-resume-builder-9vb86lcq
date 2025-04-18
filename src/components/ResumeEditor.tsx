@@ -2,7 +2,6 @@
 import React, { useRef, useState } from "react";
 import { ResumeSection } from "./ResumeSection";
 import { ResumePreview } from "./ResumePreview";
-import { useReactToPrint } from "react-to-print";
 import { Download, Plus, Trash2 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
@@ -10,6 +9,8 @@ import { Textarea } from "../components/ui/textarea";
 import { Separator } from "../components/ui/separator";
 import { Label } from "../components/ui/label";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
+// @ts-ignore
+import html2pdf from "html2pdf.js";
 
 export function ResumeEditor() {
   const [name, setName] = useState("");
@@ -18,14 +19,44 @@ export function ResumeEditor() {
   const [education, setEducation] = useState([{ school: "", degree: "", year: "" }]);
   const [experience, setExperience] = useState([{ company: "", role: "", period: "" }]);
   const [skills, setSkills] = useState([""]);
+  const [downloading, setDownloading] = useState(false);
 
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const handlePrint = useReactToPrint({
-    content: () => previewRef.current,
-    documentTitle: name ? `${name.replace(/\s+/g, "_")}_Resume` : "Resume",
-    removeAfterPrint: true,
-  });
+  const handleDownloadPDF = async () => {
+    if (!previewRef.current) return;
+    setDownloading(true);
+    // Clone the preview node to avoid UI glitches
+    const node = previewRef.current.cloneNode(true) as HTMLElement;
+    node.style.background = "#fff";
+    node.style.color = "#232323";
+    node.style.boxShadow = "none";
+    node.style.border = "none";
+    node.style.borderRadius = "0";
+    node.style.padding = "40px";
+    node.style.width = "794px";
+    node.style.minHeight = "1123px";
+    node.style.fontFamily = "'Inter', 'Lora', ui-sans-serif, serif";
+    // Remove all print: classes if any
+    node.querySelectorAll("[class*='print:']").forEach(el => {
+      el.className = el.className
+        .split(" ")
+        .filter((c: string) => !c.startsWith("print:"))
+        .join(" ");
+    });
+
+    const opt = {
+      margin:       0,
+      filename:     (name ? `${name.replace(/\s+/g, "_")}_Resume` : "Resume") + ".pdf",
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: "#fff" },
+      jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' },
+      pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    await html2pdf().set(opt).from(node).save();
+    setDownloading(false);
+  };
 
   return (
     <TooltipProvider>
@@ -248,11 +279,12 @@ export function ResumeEditor() {
           <div className="flex justify-end mt-8">
             <Button
               className="flex items-center gap-2 px-6 py-2 rounded-lg font-semibold bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow transition hover:scale-105 hover:bg-neutral-700 dark:hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-400"
-              onClick={handlePrint}
+              onClick={handleDownloadPDF}
               type="button"
+              disabled={downloading}
             >
-              <Download className="w-5 h-5" />
-              Download PDF
+              <Download className={`w-5 h-5 ${downloading ? "animate-spin" : ""}`} />
+              {downloading ? "Generating PDF..." : "Download PDF"}
             </Button>
           </div>
         </main>
