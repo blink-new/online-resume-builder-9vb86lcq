@@ -3,12 +3,12 @@ import React, { useRef, useState } from "react";
 import { ResumeSection } from "./ResumeSection";
 import { ResumePreview } from "./ResumePreview";
 import { Download, Plus, Trash2 } from "lucide-react";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Textarea } from "../components/ui/textarea";
-import { Separator } from "../components/ui/separator";
-import { Label } from "../components/ui/label";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Separator } from "./ui/separator";
+import { Label } from "./ui/label";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 // @ts-ignore
 import html2pdf from "html2pdf.js";
 
