@@ -26,6 +26,35 @@
     --resume-fg: #232323;
     --resume-accent: #d4d4d4;
   }
+  @media print {
+    body {
+      background: #fff !important;
+      color: #000 !important;
+    }
+    .print\:shadow-none {
+      box-shadow: none !important;
+    }
+    .print\:border-none {
+      border: none !important;
+    }
+    .print\:rounded-none {
+      border-radius: 0 !important;
+    }
+    .print\:px-0 {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .print\:py-0 {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    .print\:bg-white {
+      background: #fff !important;
+    }
+    .print\:text-black {
+      color: #000 !important;
+    }
+  }
 }
 
 @layer components {
@@ -34,6 +63,9 @@
   }
   .animate-fade-in {
     animation: fadeIn 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+  .max-w-a4 {
+    max-width: 794px;
   }
 }
 
